@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.eventos_denuncia.LoginResponse;
 import com.example.eventos_denuncia.R;
+import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
 
 import retrofit2.Call;
@@ -37,6 +38,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = findViewById(R.id.editTextPassword);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(SharedPrefManager.getInstance(this).estaLogueado()){
+
+            Intent intent = new Intent(this, PerfilActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+
+        }
     }
 
     public void usuarioLogin(){
@@ -74,10 +89,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LoginResponse loginResponse = response.body();
 
                 if(!loginResponse.isError()){
+                    //Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
 
-                    //continuar con el logueo
+                    SharedPrefManager.getInstance(LoginActivity.this)
+                            .guardarUsuario(loginResponse.getUser());
 
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, PerfilActivity.class);
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+
                 }
                 else{
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();

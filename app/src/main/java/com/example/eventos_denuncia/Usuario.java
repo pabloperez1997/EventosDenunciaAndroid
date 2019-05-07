@@ -1,30 +1,29 @@
 package com.example.eventos_denuncia;
 
 public class Usuario {
-    private String cedula;
-    private String name;
+    private String ci;
+    private String nombre;
     private String apellido;
     private String email;
-    private String password;
     private String telefono;
     private String fechan;
 
-    public Usuario(String cedula, String name, String apellido, String email, String password, String telefono, String fechan) {
-        this.cedula = cedula;
-        this.name = name;
+
+    public Usuario(String ci, String nombre, String apellido, String email, String telefono, String fechan) {
+        this.ci = ci;
+        this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.password = password;
         this.telefono = telefono;
         this.fechan = fechan;
     }
 
     public String getCedula() {
-        return cedula;
+        return ci;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getApellido() {
@@ -35,9 +34,6 @@ public class Usuario {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public String getTelefono() {
         return telefono;

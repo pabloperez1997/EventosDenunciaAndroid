@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.eventos_denuncia.R;
+import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
 
 import org.json.JSONException;
@@ -45,6 +46,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(SharedPrefManager.getInstance(this).estaLogueado()){
+
+            Intent intent = new Intent(this, PerfilActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+
+        }
+    }
+
     private void userSignUp(){
         String cedula = editTextCedula.getText().toString().trim();
         String name = editTextName.getText().toString().trim();

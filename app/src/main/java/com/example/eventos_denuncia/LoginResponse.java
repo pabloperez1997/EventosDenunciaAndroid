@@ -1,7 +1,5 @@
 package com.example.eventos_denuncia;
 
-import com.example.eventos_denuncia.Usuario;
-
 public class LoginResponse {
 
     private boolean error;
