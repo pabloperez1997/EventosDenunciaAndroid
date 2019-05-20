@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PerfilActivity"
+    >
+
+
+    <EditText
+        android:id="@+id/cambiarPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="5dp"
+        android:hint="Contraseña anterior"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/cambiarPass1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_password"
+        android:drawablePadding="5dp"
+        android:hint="Contraseña nueva"
+        android:inputType="textPassword"
+        android:layout_below="@+id/cambiarPass"/>
+
+     <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:layout_above="@+id/cambiarPass"
+        android:text="Cambiar Contraseña"/>
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aceptar"
+        android:layout_below="@+id/cambiarPass1"
+        android:layout_centerHorizontal="true"
+        android:onClick="cambiarpass"/>
+
+
+</RelativeLayout>
