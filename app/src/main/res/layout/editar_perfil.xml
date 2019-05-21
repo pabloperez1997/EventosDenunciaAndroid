@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-    <RelativeLayout
+<RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,61 +16,32 @@
         android:id="@+id/rellay1">
 
 
-    <RelativeLayout android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/circle_border"
-                    android:id="@+id/imgUser"
-                    android:layout_marginTop="20dp"
-                    android:layout_centerHorizontal="true">
-
-    <ImageView android:layout_height="120dp"
-        android:layout_width="120dp"
-        android:background="@drawable/circle"
-        android:src="@drawable/ic_name"
-
-        android:padding="3dp"
-        android:adjustViewBounds="true"
-        android:layout_margin="9dp"/>
-
-</RelativeLayout>
-
-        <TextView
-            android:id="@+id/nombre"
+        <RelativeLayout android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgUser"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15sp"
-            android:fontFamily="sans-serif-light"
-            android:text="Nombre por defecto"
-            android:textColor="@color/white"
-            android:textSize="32sp" />
+            android:background="@drawable/circle_border"
+            android:id="@+id/imgUser"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nombre"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif"
-            android:text="Paysandú, Uruguay"
-            android:textAllCaps="true"
-            android:textColor="@color/address"
-            android:textSize="14sp" />
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginBottom="9dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/circle"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_mode_edit_black_24dp" />
 
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:adjustViewBounds="true"
-            android:onClick="editarPefil"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_mode_edit_black_24dp"
-            android:background="@color/colorPrimary"/>
+        </RelativeLayout>
 
-</RelativeLayout>
+
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -97,8 +68,6 @@
             android:orientation="vertical">
 
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,17 +76,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cedula"
+                    android:text="Nombre"
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/nombre1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:id="@+id/cedula"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -136,17 +105,48 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="Apellido"
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/apellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/grey"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/headings"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:id="@+id/email"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -171,13 +171,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/telefono"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:id="@+id/telefono"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -201,13 +201,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/fechan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:id="@+id/fechan"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -217,8 +217,24 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/buttonEditarPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:text="Guardar"
+                android:textAllCaps="false"
+                android:textColor="@color/colorFormBackground"
+                android:onClick="GuardarCambios"/>
         </LinearLayout>
 
-</RelativeLayout>
+
+    </RelativeLayout>
+
+
+
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface Api {
 
@@ -43,5 +44,18 @@ public interface Api {
             @Field("email") String email
 
     );
+
+    @FormUrlEncoded
+    @PUT("updateuser/{ci}")
+    Call<LoginResponse> updateUser(
+            @Path("ci") String cedula,
+            @Field("nombre") String name,
+            @Field("apellido") String apellido,
+            @Field("email") String email,
+            @Field("telefono") String telefono,
+            @Field("fechan") String fechan
+
+    );
+
 
 }

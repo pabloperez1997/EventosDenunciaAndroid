@@ -4,7 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.PerfilActivity"
+    android:background="@color/colorPrimaryBackground"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:text="Modificar Contraseña"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorFormBackground"
+        android:textSize="30dp"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorFormBackground"
+        android:gravity="center|center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp">
 
 
     <EditText
@@ -15,7 +38,9 @@
         android:drawableLeft="@drawable/ic_email"
         android:drawablePadding="5dp"
         android:hint="Contraseña anterior"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
 
     <EditText
         android:id="@+id/cambiarPass1"
@@ -25,27 +50,28 @@
         android:drawablePadding="5dp"
         android:hint="Contraseña nueva"
         android:inputType="textPassword"
-        android:layout_below="@+id/cambiarPass"/>
+        android:layout_below="@+id/cambiarPass"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
 
-     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-        android:layout_above="@+id/cambiarPass"
-        android:text="Cambiar Contraseña"/>
 
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aceptar"
-        android:layout_below="@+id/cambiarPass1"
-        android:layout_centerHorizontal="true"
-        android:onClick="cambiarpass"/>
-
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="Guardar"
+        android:textAllCaps="false"
+        android:textColor="@color/colorFormBackground"
+        android:onClick="cambiarpass"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
 </RelativeLayout>

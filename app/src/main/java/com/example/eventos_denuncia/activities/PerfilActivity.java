@@ -4,22 +4,24 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eventos_denuncia.LoginResponse;
 import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.Usuario;
 import com.example.eventos_denuncia.api.RetrofitClient;
 import com.example.eventos_denuncia.secciones.CambiarPass;
+import com.example.eventos_denuncia.secciones.EditarPerfil;
 import com.example.eventos_denuncia.secciones.Inicio;
 import com.example.eventos_denuncia.secciones.VerPerfil;
 
@@ -35,7 +37,7 @@ import retrofit2.Response;
 
 public class PerfilActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private EditText editTextEmail, editTextName, editTextTelefono, editTextFechaN, editTextApellido;
     private EditText cambiarPass;
     private EditText cambiarPass1;
     private DrawerLayout dl;
@@ -65,38 +67,23 @@ public class PerfilActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if(id==R.id.inicio)
-                {
-                    fragment = new Inicio();
-
-                }
+                {fragment = new Inicio();}
 
                 if(id==R.id.perfil)
-                {
-                    fragment = new VerPerfil();
-
-                }
+                {fragment = new VerPerfil(); }
 
                 if(id==R.id.modificar_contraseña)
-                {
-                    fragment = new CambiarPass();
+                {fragment = new CambiarPass();}
 
-                }
-
-
-                if(id==R.id.cerrar_sesion){
-                    logout();
-                }
+                if(id==R.id.cerrar_sesion)
+                {logout();}
 
                 if(id==R.id.salir){
                   finish();
-                  System.exit(0);
-                }
-
+                  System.exit(0);}
 
                 if(fragment!=null)
-                {
-                    mostrarSeccion(fragment);
-                }
+                {mostrarSeccion(fragment);}
 
                 return true;
             }
@@ -191,6 +178,101 @@ public class PerfilActivity extends AppCompatActivity {
            }
        });
    }
+
+
+    public void editarPefil(View view)
+    {
+         mostrarSeccion(new EditarPerfil());
+    }
+
+    public void GuardarCambios(View view)
+    {
+
+        editTextName = findViewById(R.id.nombre1);
+        editTextApellido = findViewById(R.id.apellido);
+        editTextEmail = findViewById(R.id.email);
+        editTextTelefono = findViewById(R.id.telefono);
+        editTextFechaN = findViewById(R.id.fechan);
+
+        String nombre = editTextName.getText().toString().trim();
+        String apellido = editTextApellido.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String fechaN = editTextFechaN.getText().toString().trim();
+        String telefono = editTextTelefono.getText().toString().trim();
+
+
+        if(nombre.isEmpty()){
+            editTextName.setError("El nombre es obligatorio");
+            editTextName.requestFocus();
+            return;
+        }
+
+        if(apellido.isEmpty()){
+            editTextApellido.setError("El apellido es obligatorio");
+            editTextApellido.requestFocus();
+            return;
+        }
+
+        if(email.isEmpty()){
+            editTextEmail.setError("El Email es obligatario");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editTextEmail.setError("Ingrese un Email valido");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+
+        if(fechaN.isEmpty()){
+            editTextFechaN.setError("La fecha de nacimiento es obligataria");
+            editTextFechaN.requestFocus();
+            return;
+        }
+
+        if(telefono.isEmpty()){
+            editTextTelefono.setError("El telefono es obligatorio");
+            editTextTelefono.requestFocus();
+            return;
+        }
+
+        Usuario usuario = SharedPrefManager.getInstance(this).getUsuario();
+        Call<LoginResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .updateUser(
+                        usuario.getCedula(),
+                        nombre,
+                        apellido,
+                        email,
+                        telefono,
+                        fechaN
+                );
+
+      call.enqueue(new Callback<LoginResponse>() {
+          @Override
+          public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+              LoginResponse loginResponse = response.body();
+
+              if(!loginResponse.isError()){
+                  Toast.makeText(PerfilActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                  SharedPrefManager.getInstance(PerfilActivity.this).guardarUsuario(response.body().getUser());
+
+              }
+              else{
+                  Toast.makeText(PerfilActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+              }
+          }
+
+          @Override
+          public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+          }
+      });
+
+    }
 
 
 

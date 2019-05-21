@@ -1,11 +1,14 @@
 package com.example.eventos_denuncia.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -26,6 +31,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editTextEmail, editTextPassword, editTextName, editTextCedula, editTextTelefono, editTextFechaN, editTextApellido;
+    private Calendar c;
+    private DatePickerDialog dPG;
+    private ImageButton elegirFecha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextTelefono = findViewById(R.id.editTextTelefono);
         editTextFechaN = findViewById(R.id.editTextFechaN);
+
+
+        elegirFecha = findViewById(R.id.elegirFecha);
+
+        elegirFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                c= Calendar.getInstance();
+                //int dia = c.get(Calendar.DAY_OF_MONTH);
+                //int mes = c.get(Calendar.MONTH);
+                //int anio = c.get(Calendar.YEAR);
+
+                int dia = 1;
+                int mes = 0;
+                int anio = 2001;
+
+                c.setTime(new Date(2001-01-01));
+
+
+                dPG = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+                    }
+                },anio,mes,dia);
+
+                dPG.getDatePicker().setMaxDate(c.getTimeInMillis());
+                dPG.show();
+            }
+        });
+
 
 
         findViewById(R.id.buttonSignUp).setOnClickListener(this);
@@ -164,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
         }
     });
-        /* Do user registration using the api call*/
+
 
     }
 
