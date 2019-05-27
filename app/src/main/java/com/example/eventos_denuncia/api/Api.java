@@ -57,5 +57,14 @@ public interface Api {
 
     );
 
+    @FormUrlEncoded
+    @PUT("desactivarusuario/{ci}")
+    Call<LoginResponse> desactivarUsuario(
+            @Path("ci") String cedula,
+            @Field("nombre") String name
+
+    );
+
+
 
 }
