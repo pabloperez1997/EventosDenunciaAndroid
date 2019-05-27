@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
 
                 c= Calendar.getInstance();
-                //int dia = c.get(Calendar.DAY_OF_MONTH);
-                //int mes = c.get(Calendar.MONTH);
-                //int anio = c.get(Calendar.YEAR);
+                int dia = c.get(Calendar.DAY_OF_MONTH);
+                int mes = c.get(Calendar.MONTH);
+                int anio = c.get(Calendar.YEAR);
 
-                int dia = 1;
-                int mes = 0;
-                int anio = 2001;
+                //int dia = 1;
+                //int mes = 0;
+                //int anio = 2001;
 
-                c.setTime(new Date(2001-01-01));
+               // c.setTime(new Date(2001-01-01));
 
 
                 dPG = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {

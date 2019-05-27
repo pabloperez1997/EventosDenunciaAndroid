@@ -75,6 +75,9 @@ public class PerfilActivity extends AppCompatActivity {
                 if(id==R.id.modificar_contraseña)
                 {fragment = new CambiarPass();}
 
+                if(id==R.id.desactivar)
+                {desactivarUsuario();}
+
                 if(id==R.id.cerrar_sesion)
                 {logout();}
 
@@ -183,6 +186,41 @@ public class PerfilActivity extends AppCompatActivity {
     public void editarPefil(View view)
     {
          mostrarSeccion(new EditarPerfil());
+    }
+
+    public void desactivarUsuario()
+    {
+
+        Usuario usuario = SharedPrefManager.getInstance(this).getUsuario();
+        Call<LoginResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .desactivarUsuario(
+                        usuario.getCedula(),
+                        usuario.getNombre()
+                );
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+
+                if(!loginResponse.isError()){
+                    Toast.makeText(PerfilActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    logout();
+
+                }
+                else{
+                    Toast.makeText(PerfilActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void GuardarCambios(View view)
