@@ -1,12 +1,18 @@
 package com.example.eventos_denuncia.secciones;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventos_denuncia.Evento;
@@ -17,7 +23,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Array;
@@ -84,7 +92,47 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                     int activo = eventos.get(i).getActivo();
 
                     LatLng nuevo = new LatLng(latitud,longitud);
-                    mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre));
+
+                    if(activo==1) {
+                        mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    }
+                    else{
+                        mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
+                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                            @Override
+                            public View getInfoWindow(Marker arg0) {
+                                return null;
+                            }
+
+                            @Override
+                            public View getInfoContents(Marker marker) {
+
+                                Context mContext = getActivity();
+
+                                LinearLayout info = new LinearLayout(mContext);
+                                info.setOrientation(LinearLayout.VERTICAL);
+
+
+                                TextView title = new TextView(mContext);
+                                title.setTextColor(Color.BLACK);
+                                title.setGravity(Gravity.CENTER);
+                                title.setTypeface(null, Typeface.BOLD);
+                                title.setText(marker.getTitle());
+
+                                TextView snippet = new TextView(mContext);
+                                snippet.setTextColor(Color.GRAY);
+                                snippet.setText(marker.getSnippet());
+
+                                info.addView(title);
+                                info.addView(snippet);
+
+                                return info;
+                            }
+                        });
 
        }
 
@@ -111,5 +159,6 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         float zoomLevel = 13.0f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paysandu, zoomLevel));
     }
+
 
 }
