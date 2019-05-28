@@ -22,9 +22,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextEmail, editTextPassword;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

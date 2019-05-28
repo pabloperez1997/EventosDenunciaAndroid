@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
+import com.example.eventos_denuncia.secciones.Fechas;
 
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
@@ -78,7 +79,7 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                     }
                 },anio,mes,dia);
 
-                long milisegundos = setMaximumDate();
+                long milisegundos = Fechas.setMaximumDate();
                 dPG.getDatePicker().setMaxDate(milisegundos);
 
                 dPG.show();
@@ -225,12 +226,5 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
 
                 break;
         }
-    }
-
-    private long setMaximumDate(){
-        LocalDate localDate = LocalDate.now();
-        localDate = localDate.minusYears(18).minusDays(1);
-        return localDate.toDate().getTime();
-
     }
 }
