@@ -92,6 +92,9 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
+
+        //Intent intent = new Intent(this,MapsActivity.class);
+        //startActivity(intent);
         mostrarSeccion(new Inicio());
     }
 

@@ -16,7 +16,13 @@ public class Inicio extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.inicio, container, false);
+
+
+
+
+
+
+        return  inflater.inflate(R.layout.activity_maps, container, false);
     }
 
 
