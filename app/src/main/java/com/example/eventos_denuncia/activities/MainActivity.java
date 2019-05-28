@@ -15,7 +15,11 @@ import android.widget.Toast;
 import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
+import com.example.eventos_denuncia.secciones.Fechas;
 
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         elegirFecha = findViewById(R.id.elegirFecha);
 
+
         elegirFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +79,9 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                     }
                 },anio,mes,dia);
 
-                dPG.getDatePicker().setMaxDate(c.getTimeInMillis());
+                long milisegundos = Fechas.setMaximumDate();
+                dPG.getDatePicker().setMaxDate(milisegundos);
+
                 dPG.show();
             }
         });
@@ -177,11 +184,11 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
             String s = null;
 
             try {
-            if (response.code() == 201){
-                s = response.body().string();
-            }
-            else{
-                s = response.errorBody().string();
+                if (response.code() == 201){
+                    s = response.body().string();
+                }
+                else{
+                    s = response.errorBody().string();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
