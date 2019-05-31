@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,15 +16,11 @@ import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
 import com.example.eventos_denuncia.secciones.Fechas;
 
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
-import org.joda.time.Years;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,7 +29,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText editTextEmail, editTextPassword, editTextName, editTextCedula, editTextTelefono, editTextFechaN, editTextApellido;
+    private EditText editTextEmail, editTextPassword, editTextName, editTextCedula,
+            editTextTelefono, editTextFechaN, editTextApellido, editTextRepeatPassword;
     private Calendar c;
     private DatePickerDialog dPG;
     private ImageButton elegirFecha;
@@ -49,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextApellido = findViewById(R.id.editTextApellido);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextRepeatPassword = findViewById(R.id.editTextRepeatPassword);
         editTextTelefono = findViewById(R.id.editTextTelefono);
         editTextFechaN = findViewById(R.id.editTextFechaN);
 
@@ -65,17 +62,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int mes = c.get(Calendar.MONTH);
                 int anio = c.get(Calendar.YEAR);
 
-                //int dia = 1;
-                //int mes = 0;
-                //int anio = 2001;
-
-               // c.setTime(new Date(2001-01-01));
-
-
                 dPG = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+                    editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                     }
                 },anio,mes,dia);
 
@@ -113,6 +103,7 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
         String apellido = editTextApellido.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String paswword2 = editTextRepeatPassword.getText().toString().trim();
         String fechaN = editTextFechaN.getText().toString().trim();
         String telefono = editTextTelefono.getText().toString().trim();
 
@@ -156,6 +147,12 @@ editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
         if(password.length() < 6){
             editTextPassword.setError("La contraseña debe tener al menos 6 caracteres");
             editTextPassword.requestFocus();
+            return;
+        }
+
+        if(!password.equals(paswword2)){
+            editTextRepeatPassword.setError("Las contrase\u00f1as no coinciden");
+            editTextRepeatPassword.requestFocus();
             return;
         }
 
