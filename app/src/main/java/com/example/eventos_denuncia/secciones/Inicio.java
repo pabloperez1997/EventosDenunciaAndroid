@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,18 +29,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Inicio extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private List<Evento> eventos;
+    Marker marker;
+
 
 
 
@@ -61,6 +68,14 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        final FloatingActionButton button =
+                (FloatingActionButton) view.findViewById(R.id.fab);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                nuevoEvento(v);
+            }
+        });
 
     }
 
@@ -158,6 +173,80 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(paysandu).title("Marca de Prueba Paysandu"));
         float zoomLevel = 13.0f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paysandu, zoomLevel));
+
+
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng point) {
+                if (marker != null) {
+                    marker.remove();
+                }
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(
+                                new LatLng(point.latitude,
+                                        point.longitude)).title("Nuevo Marcador")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+            }
+        });
+    }
+
+    public void nuevoEvento(View view){
+       // Toast.makeText(getActivity(),"LLEGA", Toast.LENGTH_LONG).show();
+        double latitud = marker.getPosition().latitude;
+        double longitud= marker.getPosition().longitude;
+        String nombre= "Alta prueba";
+        String descripcion= "Descripcion prueba";
+        String foto = "Sin foto";
+        int idEstado = 1;
+        int activo = 1;
+
+
+        Toast.makeText(getActivity(), String.valueOf(latitud)+String.valueOf(longitud), Toast.LENGTH_LONG).show();
+
+
+        Call<ResponseBody> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .crearEvento(nombre,descripcion,longitud,latitud,foto,idEstado,activo);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                String s = null;
+
+                try {
+                    if (response.code() == 201){
+                        s = response.body().string();
+                    }
+                    else{
+                        s = response.errorBody().string();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (s != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        Toast.makeText(getActivity(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
 

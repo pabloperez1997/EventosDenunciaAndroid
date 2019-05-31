@@ -71,7 +71,18 @@ public interface Api {
     Call<EventoResponse> obtenerEventos();
 
 
+    @FormUrlEncoded
+    @POST("crearevento")
+    Call<ResponseBody> crearEvento(
 
+            @Field("nombre") String nombre,
+            @Field("descripcion") String descripcion,
+            @Field("longitud") Double longitud,
+            @Field("latitud") Double latitud,
+            @Field("foto") String foto,
+            @Field("idEstado") int idEstado,
+            @Field("activo") int activo
 
+    );
 
 }

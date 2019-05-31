@@ -67,7 +67,9 @@ public class PerfilActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if(id==R.id.inicio)
-                {fragment = new Inicio();}
+                {fragment = new Inicio();
+
+                }
 
                 if(id==R.id.perfil)
                 {fragment = new VerPerfil(); }
@@ -86,7 +88,8 @@ public class PerfilActivity extends AppCompatActivity {
                   System.exit(0);}
 
                 if(fragment!=null)
-                {mostrarSeccion(fragment);}
+                {mostrarSeccion(fragment);
+                    dl.closeDrawers();}
 
                 return true;
             }
