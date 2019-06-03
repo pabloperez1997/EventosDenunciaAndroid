@@ -1,6 +1,8 @@
 package com.example.eventos_denuncia.secciones;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -48,10 +51,6 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private List<Evento> eventos;
     Marker marker;
-
-
-
-
 
     @Nullable
     @Override
@@ -99,24 +98,39 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
 
                     for (int i=0; i<eventos.size(); i++) {
 
-                    int id = eventos.get(i).getId();
-                    String nombre = eventos.get(i).getNombre();
-                    String descripcion = eventos.get(i).getDescripcion();
-                    double longitud = eventos.get(i).getLongitud();
-                    double latitud = eventos.get(i).getLatitud();
-                    String foto = eventos.get(i).getFoto();
-                    int idEstado = eventos.get(i).getIdEstado();
-                    int activo = eventos.get(i).getActivo();
+                        int id = eventos.get(i).getId();
+                        String nombre = eventos.get(i).getNombre();
+                        String descripcion = eventos.get(i).getDescripcion();
+                        double longitud = eventos.get(i).getLongitud();
+                        double latitud = eventos.get(i).getLatitud();
+                        String foto = eventos.get(i).getFoto();
+                        int idEstado = eventos.get(i).getIdEstado();
+                        int activo = eventos.get(i).getActivo();
 
-                    LatLng nuevo = new LatLng(latitud,longitud);
+                        LatLng nuevo = new LatLng(latitud, longitud);
 
-                    if(activo==1) {
-                        mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    }
-                    else{
-                        mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        if (activo == 1){
+                        if (eventos.get(i).getIdEstado()==1){
+                            Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.bachered);
+                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
+
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                                    .icon(bitmapDescriptor));
+
+
+
+                        } else if (eventos.get(i).getIdEstado()==2) {
+                            Bitmap img1 = BitmapFactory.decodeResource(getResources(),R.drawable.bacheyellow);
+                            BitmapDescriptor bitmapDescriptor1 = BitmapDescriptorFactory.fromBitmap(img1);
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                                    .icon(bitmapDescriptor1));
+                        }
+                        else{
+                            Bitmap img2 = BitmapFactory.decodeResource(getResources(),R.drawable.bachegreen);
+                            BitmapDescriptor bitmapDescriptor2 = BitmapDescriptorFactory.fromBitmap(img2);
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                                    .icon(bitmapDescriptor2));
+                        }
                     }
                         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -170,7 +184,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         });
 
 
-        // Agrega el marcador en Paysandu y mueve la camara
+        //Agrega el marcador en Paysandu y mueve la camara
         LatLng paysandu = new LatLng(-32.32139, -58.07556);
         mMap.addMarker(new MarkerOptions().position(paysandu).title("Marca de Prueba Paysandu"));
         float zoomLevel = 13.0f; //This goes up to 21
@@ -184,11 +198,14 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                 if (marker != null) {
                     marker.remove();
                 }
+                Bitmap img3 = BitmapFactory.decodeResource(getResources(),R.drawable.bacheblue);
+                BitmapDescriptor bitmapDescriptor3 = BitmapDescriptorFactory.fromBitmap(img3);
+
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(
                                 new LatLng(point.latitude,
                                         point.longitude)).title("Nuevo Marcador")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        .icon(bitmapDescriptor3));
 
             }
         });
