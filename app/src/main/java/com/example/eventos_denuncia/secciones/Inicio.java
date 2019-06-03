@@ -51,6 +51,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private List<Evento> eventos;
     Marker marker;
+    private FloatingActionButton button;
 
     @Nullable
     @Override
@@ -61,6 +62,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -70,15 +72,18 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        final FloatingActionButton button =
-                (FloatingActionButton) view.findViewById(R.id.fab);
+
+
+        button = (FloatingActionButton) view.findViewById(R.id.fab);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 nuevoEvento(v);
             }
         });
-
+        //button.show();
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -211,16 +216,30 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         });
     }
 
+
     public void nuevoEvento(View view){
        // Toast.makeText(getActivity(),"LLEGA", Toast.LENGTH_LONG).show();
         double latitud = marker.getPosition().latitude;
         double longitud= marker.getPosition().longitude;
         RegistrarDenuncia denucia = new RegistrarDenuncia();
         denucia.setLatitudLong(latitud,longitud);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+
+
+        //FragmentTransaction ft = getFragmentManager().beginTransaction();
+/*
         ft.replace(R.id.map, denucia);
+
+        button.hide();
         ft.addToBackStack(null);
         ft.commit();
+*/
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, denucia)
+                .addToBackStack(null)
+                .commit();
         /*
 
         String nombre= "Alta prueba";

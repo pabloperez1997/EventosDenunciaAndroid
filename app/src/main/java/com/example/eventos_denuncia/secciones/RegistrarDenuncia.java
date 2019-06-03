@@ -3,38 +3,39 @@ package com.example.eventos_denuncia.secciones;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.eventos_denuncia.Evento;
 import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.api.RetrofitClient;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegistrarDenuncia extends Fragment implements OnMapReadyCallback {
+public class RegistrarDenuncia extends Fragment {
     private GoogleMap mMap;
     private double latitud, longitud;
+    private EditText titulo;
+    private EditText desc;
+    private FloatingActionButton button;
+
+
+
     Marker marker;
     @Nullable
     @Override
@@ -50,7 +51,7 @@ public void setLatitudLong (double lat, double lonng){
         this.longitud=lonng;
 }
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
         final Button denuncia = view.findViewById(R.id.btn_denunciar);
         denuncia.setOnClickListener(new View.OnClickListener() {
@@ -60,27 +61,42 @@ public void setLatitudLong (double lat, double lonng){
             }
         });
 
-        Toast.makeText(getActivity(),String.valueOf(this.latitud),Toast.LENGTH_LONG).show();
+        final Button cancelar = view.findViewById(R.id.btn_cancelar);
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button = (FloatingActionButton) v.findViewById(R.id.fab);
+                button.show();
+            }
+        });
+
+      //  Toast.makeText(getActivity(),String.valueOf(this.latitud),Toast.LENGTH_LONG).show();
+
+        titulo = view.findViewById(R.id.txt_titulo);
+        desc = view.findViewById(R.id.txt_descripcion);
+
+
     }
 
-    private View.OnClickListener nuevaDenuncia(View v) {
+    private void nuevaDenuncia(View v) {
 
-        double latitud = marker.getPosition().latitude;
-        double longitud= marker.getPosition().longitude;
-        String nombre= "Alta prueba";
-        String descripcion= "Descripcion prueba";
+
+        String nombre = titulo.getText().toString();
+        String descripcion= desc.getText().toString();
+
+        double latitud1 = latitud;
+        double longitud1 = longitud;
+
+
         String foto = "Sin foto";
         int idEstado = 1;
         int activo = 1;
 
 
-        Toast.makeText(getActivity(), String.valueOf(latitud)+String.valueOf(longitud), Toast.LENGTH_LONG).show();
-
-
         Call<ResponseBody> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .crearEvento(nombre,descripcion,longitud,latitud,foto,idEstado,activo);
+                .crearEvento(nombre,descripcion,longitud1,latitud1,foto,idEstado,activo);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -118,26 +134,5 @@ public void setLatitudLong (double lat, double lonng){
         });
 
 
-   return (View.OnClickListener) v;
-    }
-
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
-            @Override
-            public void onMapLongClick(LatLng point) {
-                if (marker != null) {
-                    marker.remove();
-                }
-                marker = mMap.addMarker(new MarkerOptions()
-                        .position(
-                                new LatLng(point.latitude,
-                                        point.longitude)).title("Nuevo Marcador")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
-            }
-        });
     }
 }
