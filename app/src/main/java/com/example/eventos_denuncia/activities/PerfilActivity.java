@@ -1,11 +1,13 @@
 package com.example.eventos_denuncia.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -196,7 +198,27 @@ public class PerfilActivity extends AppCompatActivity {
 
     public void desactivarUsuario()
     {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        desactivar();
+                        break;
 
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Está apunto de desactivar su Cuenta.\nDesea Continuar?").setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    public void desactivar(){
         Usuario usuario = SharedPrefManager.getInstance(this).getUsuario();
         Call<LoginResponse> call = RetrofitClient
                 .getInstance()
@@ -226,7 +248,6 @@ public class PerfilActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public void GuardarCambios(View view)
