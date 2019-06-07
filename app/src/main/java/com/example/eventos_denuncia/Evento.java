@@ -4,13 +4,13 @@ public class Evento {
     private int id;
     private String nombre;
     private String descripcion;
-    private double longitud;
-    private double latitud;
+    private String longitud;
+    private String latitud;
     private String foto;
     private int idEstado;
     private int activo;
 
-    public Evento(int id, String nombre, String descripcion, double longitud, double latitud, String foto, int idEstado, int activo) {
+    public Evento(int id, String nombre, String descripcion, String longitud, String latitud, String foto, int idEstado, int activo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -33,11 +33,11 @@ public class Evento {
         return descripcion;
     }
 
-    public double getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
-    public double getLatitud() {
+    public String getLatitud() {
         return latitud;
     }
 

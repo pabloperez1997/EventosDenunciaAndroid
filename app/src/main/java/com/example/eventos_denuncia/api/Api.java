@@ -77,8 +77,8 @@ public interface Api {
 
             @Field("nombre") String nombre,
             @Field("descripcion") String descripcion,
-            @Field("longitud") Double longitud,
-            @Field("latitud") Double latitud,
+            @Field("longitud") String longitud,
+            @Field("latitud") String latitud,
             @Field("foto") String foto,
             @Field("idEstado") int idEstado,
             @Field("activo") int activo

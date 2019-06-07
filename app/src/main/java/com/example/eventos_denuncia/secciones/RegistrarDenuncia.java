@@ -96,7 +96,7 @@ public void setLatitudLong (double lat, double lonng){
         Call<ResponseBody> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .crearEvento(nombre,descripcion,longitud1,latitud1,foto,idEstado,activo);
+                .crearEvento(nombre,descripcion,Double.toString(longitud1),Double.toString(latitud1),foto,idEstado,activo);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

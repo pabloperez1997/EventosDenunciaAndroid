@@ -106,8 +106,9 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                         int id = eventos.get(i).getId();
                         String nombre = eventos.get(i).getNombre();
                         String descripcion = eventos.get(i).getDescripcion();
-                        double longitud = eventos.get(i).getLongitud();
-                        double latitud = eventos.get(i).getLatitud();
+                        double longitud = Double.parseDouble(eventos.get(i).getLongitud());
+                        double latitud = Double.parseDouble(eventos.get(i).getLatitud());
+
                         String foto = eventos.get(i).getFoto();
                         int idEstado = eventos.get(i).getIdEstado();
                         int activo = eventos.get(i).getActivo();
