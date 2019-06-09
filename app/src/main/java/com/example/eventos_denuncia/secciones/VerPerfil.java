@@ -13,6 +13,10 @@ import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.Usuario;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class VerPerfil extends Fragment {
 
     private TextView nombre;
@@ -43,7 +47,18 @@ public class VerPerfil extends Fragment {
         cedula.setText(usuario.getCedula());
         email.setText(usuario.getEmail());
         telefono.setText(usuario.getTelefono());
-        fechan.setText(usuario.getFechan());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(usuario.getFechan());
+            format.applyPattern("dd-MM-yyyy");
+            String fecha = format.format(date);
+            fechan.setText(fecha);
+        }
+        catch(ParseException e){
+
+        }
+
 
     }
 }
