@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.eventos_denuncia.LoginResponse;
 import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
+import com.example.eventos_denuncia.Usuario;
 import com.example.eventos_denuncia.api.RetrofitClient;
 
 import retrofit2.Call;
@@ -88,8 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if(!loginResponse.isError()){
                     //Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
 
+                    Usuario usuario = loginResponse.getUser();
+
                     SharedPrefManager.getInstance(LoginActivity.this)
-                            .guardarUsuario(loginResponse.getUser());
+                            .guardarUsuario(usuario);
 
                     Intent intent = new Intent(LoginActivity.this, PerfilActivity.class);
 

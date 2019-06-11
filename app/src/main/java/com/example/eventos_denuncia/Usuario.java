@@ -6,7 +6,7 @@ public class Usuario {
     private String apellido;
     private String email;
     private String telefono;
-    private String fechan;
+    private String fnac;
 
 
     public Usuario(String ci, String nombre, String apellido, String email, String telefono, String fechan) {
@@ -15,7 +15,7 @@ public class Usuario {
         this.apellido = apellido;
         this.email = email;
         this.telefono = telefono;
-        this.fechan = fechan;
+        this.fnac = fechan;
     }
 
     public String getCedula() {
@@ -40,6 +40,6 @@ public class Usuario {
     }
 
     public String getFechan() {
-        return fechan;
+        return fnac;
     }
 }
