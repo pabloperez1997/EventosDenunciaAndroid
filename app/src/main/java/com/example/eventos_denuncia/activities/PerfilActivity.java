@@ -25,6 +25,7 @@ import com.example.eventos_denuncia.api.RetrofitClient;
 import com.example.eventos_denuncia.secciones.CambiarPass;
 import com.example.eventos_denuncia.secciones.EditarPerfil;
 import com.example.eventos_denuncia.secciones.Inicio;
+import com.example.eventos_denuncia.secciones.MisReclamos;
 import com.example.eventos_denuncia.secciones.VerPerfil;
 
 import org.json.JSONException;
@@ -70,7 +71,10 @@ public class PerfilActivity extends AppCompatActivity {
 
                 if(id==R.id.inicio)
                 {fragment = new Inicio();
+                }
 
+                if(id==R.id.reclamos)
+                {fragment = new MisReclamos();
                 }
 
                 if(id==R.id.perfil)

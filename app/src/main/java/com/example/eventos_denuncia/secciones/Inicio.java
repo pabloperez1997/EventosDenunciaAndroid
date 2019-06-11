@@ -140,6 +140,8 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                     }
                         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
+
+
                             @Override
                             public View getInfoWindow(Marker arg0) {
                                 return null;
@@ -168,6 +170,24 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                                 info.addView(snippet);
 
                                 return info;
+                            }
+                        });
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+
+                                    double latitud = marker.getPosition().latitude;
+                                    double longitud= marker.getPosition().longitude;
+                                    StreetView streetView = new StreetView();
+                                    streetView.setLatitudLong(latitud,longitud);
+
+                                        getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.container, streetView)
+                                        .addToBackStack(null)
+                                        .commit();
+
                             }
                         });
 
@@ -241,58 +261,6 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                 .replace(R.id.container, denucia)
                 .addToBackStack(null)
                 .commit();
-        /*
-
-        String nombre= "Alta prueba";
-        String descripcion= "Descripcion prueba";
-        String foto = "Sin foto";
-        int idEstado = 1;
-        int activo = 1;
-
-
-        Toast.makeText(getActivity(), String.valueOf(latitud)+String.valueOf(longitud), Toast.LENGTH_LONG).show();
-
-
-        Call<ResponseBody> call = RetrofitClient
-                .getInstance()
-                .getApi()
-                .crearEvento(nombre,descripcion,longitud,latitud,foto,idEstado,activo);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                String s = null;
-
-                try {
-                    if (response.code() == 201){
-                        s = response.body().string();
-                    }
-                    else{
-                        s = response.errorBody().string();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (s != null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(s);
-                        Toast.makeText(getActivity(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-*/
 
     }
 

@@ -85,4 +85,7 @@ public interface Api {
 
     );
 
+    @GET("obtenereventosdelusuario")
+    Call<EventoResponse> obtenerEventosdelusuario();
+
 }
