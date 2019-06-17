@@ -15,6 +15,7 @@ import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
 import com.example.eventos_denuncia.secciones.Fechas;
+import com.example.eventos_denuncia.utils.AccionElegirFecha;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private EditText editTextEmail, editTextPassword, editTextName, editTextCedula,
             editTextTelefono, editTextFechaN, editTextApellido, editTextRepeatPassword;
-    private Calendar c;
-    private DatePickerDialog dPG;
     private ImageButton elegirFecha;
 
     @Override
@@ -57,22 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                c= Calendar.getInstance();
-                int dia = c.get(Calendar.DAY_OF_MONTH);
-                int mes = c.get(Calendar.MONTH);
-                int anio = c.get(Calendar.YEAR);
-
-                dPG = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    editTextFechaN.setText(year + "-" + (month+1) + "-" + dayOfMonth);
-                    }
-                },anio,mes,dia);
-
-                long milisegundos = Fechas.setMaximumDate();
-                dPG.getDatePicker().setMaxDate(milisegundos);
-
-                dPG.show();
+                new AccionElegirFecha(editTextFechaN).setFecha(MainActivity.this);
             }
         });
 
@@ -83,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -224,4 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 }
