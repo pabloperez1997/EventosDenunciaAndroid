@@ -1,30 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:id="@+id/a">
     <item android:id="@+id/inicio"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Inicio"/>
+    </group>
+    <group android:id="@+id/b">
     <item android:id="@+id/perfil"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Mi Perfil"/>
+    </group>
+    <group android:id="@+id/c">
     <item android:id="@+id/settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Configuración"/>
+    </group>
+    <group android:id="@+id/d">
     <item android:id="@+id/modificar_contraseña"
         android:icon="@drawable/ic_compare_arrows_black_24dp"
         android:title="Cambiar Contraseña"/>
+    </group>
+
+    <group android:id="@+id/e">
     <item android:id="@+id/reclamos"
         android:icon="@drawable/ic_report_problem_black_24dp"
         android:title="Mis reclamos"/>
+    </group>
+
+    <group android:id="@+id/f">
     <item android:id="@+id/desactivar"
         android:icon="@drawable/ic_not_interested_black_24dp"
         android:title="Desactivar Cuenta"/>
+    </group>
+    <group android:id="@+id/g">
     <item android:id="@+id/cerrar_sesion"
         android:icon="@drawable/ic_arrow_back_black_24dp"
         android:title="Cerrar Sesion"/>
+    </group>
+    <group android:id="@+id/h">
     <item android:id="@+id/salir"
         android:icon="@drawable/ic_close_black_24dp"
         android:title="Salir"/>
+    </group>
 
 
 </menu>

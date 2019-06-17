@@ -3,23 +3,18 @@ package com.example.eventos_denuncia.secciones;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.eventos_denuncia.Evento;
 import com.example.eventos_denuncia.EventoResponse;
 import com.example.eventos_denuncia.R;
@@ -33,10 +28,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -52,14 +45,16 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
     private List<Evento> eventos;
     Marker marker;
     private FloatingActionButton button;
+    String baseURL = "http://192.168.43.118/PhpEventosDenuncia/";
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         View view = inflater.inflate(R.layout.activity_maps, container, false);
         return view;
+
     }
 
 
@@ -77,6 +72,9 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         button = (FloatingActionButton) view.findViewById(R.id.fab);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(marker==null)
+                Toast.makeText(getActivity(),"Primero debe marcar un punto en el mapa manteniendolo pulsado",Toast.LENGTH_LONG).show();
+                else
                 nuevoEvento(v);
             }
         });
@@ -95,32 +93,25 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
             public void onResponse(Call<EventoResponse> call, Response<EventoResponse> response) {
                 EventoResponse eventoResponse = response.body();
                 if(!eventoResponse.isError()){
-                    //Toast.makeText(getActivity(),"LLEGA", Toast.LENGTH_LONG).show();
                     eventos = eventoResponse.getEventos();
-                    //Toast.makeText(getActivity(),eventos.get(0).getNombre(), Toast.LENGTH_LONG).show();
-                   // LatLng paysandu1 = new LatLng(eventos.get(0).getLatitud(),eventos.get(0).getLongitud());
-                    //mMap.addMarker(new MarkerOptions().position(paysandu1).title("Marca 2 de prueba"));
-
                     for (int i=0; i<eventos.size(); i++) {
 
                         int id = eventos.get(i).getId();
-                        String nombre = eventos.get(i).getNombre();
+                        final String nombre = eventos.get(i).getNombre();
                         String descripcion = eventos.get(i).getDescripcion();
                         double longitud = Double.parseDouble(eventos.get(i).getLongitud());
                         double latitud = Double.parseDouble(eventos.get(i).getLatitud());
-
-                        String foto = eventos.get(i).getFoto();
                         int idEstado = eventos.get(i).getIdEstado();
                         int activo = eventos.get(i).getActivo();
 
-                        LatLng nuevo = new LatLng(latitud, longitud);
+                        final LatLng nuevo = new LatLng(latitud, longitud);
 
                         if (activo == 1){
                         if (eventos.get(i).getIdEstado()==1){
                             Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.bachered);
                             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
 
-                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + "En Reparación")
                                     .icon(bitmapDescriptor));
 
 
@@ -128,68 +119,17 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                         } else if (eventos.get(i).getIdEstado()==2) {
                             Bitmap img1 = BitmapFactory.decodeResource(getResources(),R.drawable.bacheyellow);
                             BitmapDescriptor bitmapDescriptor1 = BitmapDescriptorFactory.fromBitmap(img1);
-                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + "En espera OSE")
                                     .icon(bitmapDescriptor1));
                         }
                         else{
                             Bitmap img2 = BitmapFactory.decodeResource(getResources(),R.drawable.bachegreen);
                             BitmapDescriptor bitmapDescriptor2 = BitmapDescriptorFactory.fromBitmap(img2);
-                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + idEstado)
+                            mMap.addMarker(new MarkerOptions().position(nuevo).title(nombre).snippet(descripcion + "\n" + "Estado:" + "Reparado")
                                     .icon(bitmapDescriptor2));
                         }
                     }
-                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-
-
-                            @Override
-                            public View getInfoWindow(Marker arg0) {
-                                return null;
-                            }
-
-                            @Override
-                            public View getInfoContents(Marker marker) {
-
-                                Context mContext = getActivity();
-
-                                LinearLayout info = new LinearLayout(mContext);
-                                info.setOrientation(LinearLayout.VERTICAL);
-
-
-                                TextView title = new TextView(mContext);
-                                title.setTextColor(Color.BLACK);
-                                title.setGravity(Gravity.CENTER);
-                                title.setTypeface(null, Typeface.BOLD);
-                                title.setText(marker.getTitle());
-
-                                TextView snippet = new TextView(mContext);
-                                snippet.setTextColor(Color.GRAY);
-                                snippet.setText(marker.getSnippet());
-
-                                info.addView(title);
-                                info.addView(snippet);
-
-                                return info;
-                            }
-                        });
-
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            @Override
-                            public void onInfoWindowClick(Marker marker) {
-
-                                    double latitud = marker.getPosition().latitude;
-                                    double longitud= marker.getPosition().longitude;
-                                    StreetView streetView = new StreetView();
-                                    streetView.setLatitudLong(latitud,longitud);
-
-                                        getActivity().getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.container, streetView)
-                                        .addToBackStack(null)
-                                        .commit();
-
-                            }
-                        });
 
        }
 
@@ -209,15 +149,70 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
         //Agrega el marcador en Paysandu y mueve la camara
         LatLng paysandu = new LatLng(-32.32139, -58.07556);
-        mMap.addMarker(new MarkerOptions().position(paysandu).title("Marca de Prueba Paysandu"));
+       // mMap.addMarker(new MarkerOptions().position(paysandu).title("Marca de Prueba Paysandu"));
         float zoomLevel = 13.0f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paysandu, zoomLevel));
 
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(final Marker marker) {
 
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                View myContentView = getLayoutInflater().inflate(
+                        R.layout.info_window_layout, null);
+                TextView tvTitle = myContentView
+                        .findViewById(R.id.title);
+                tvTitle.setText("Título: "+marker.getTitle());
+                TextView tvSnippet = myContentView
+                        .findViewById(R.id.distance);
+                tvSnippet.setText("Descripción: "+ marker.getSnippet());
+
+                ImageView image = myContentView
+                        .findViewById(R.id.markerImage);
+
+                String foto = null;
+                for (int i=0; i<eventos.size(); i++) {
+                    if(eventos.get(i).getNombre().compareTo(marker.getTitle())==0){
+                        if(eventos.get(i).getFoto()!=null)
+                            foto = baseURL+ eventos.get(i).getFoto();
+                    }
+                }
+
+                if(foto==null){
+                    Picasso.get().load(R.drawable.sinfoto).into(image);}
+                else {
+                    Picasso.get().load(foto).into(image);
+                }
+
+                return myContentView;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+               return null;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                double latitud = marker.getPosition().latitude;
+                double longitud= marker.getPosition().longitude;
+                StreetView streetView = new StreetView();
+                streetView.setLatitudLong(latitud,longitud);
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, streetView)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(LatLng point) {
@@ -239,22 +234,11 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
 
 
     public void nuevoEvento(View view){
-       // Toast.makeText(getActivity(),"LLEGA", Toast.LENGTH_LONG).show();
+
         double latitud = marker.getPosition().latitude;
         double longitud= marker.getPosition().longitude;
         RegistrarDenuncia denucia = new RegistrarDenuncia();
         denucia.setLatitudLong(latitud,longitud);
-
-
-
-        //FragmentTransaction ft = getFragmentManager().beginTransaction();
-/*
-        ft.replace(R.id.map, denucia);
-
-        button.hide();
-        ft.addToBackStack(null);
-        ft.commit();
-*/
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()

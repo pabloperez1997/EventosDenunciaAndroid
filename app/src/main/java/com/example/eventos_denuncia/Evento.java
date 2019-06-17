@@ -9,8 +9,10 @@ public class Evento {
     private String foto;
     private int idEstado;
     private int activo;
+    private String idusu;
 
-    public Evento(int id, String nombre, String descripcion, String longitud, String latitud, String foto, int idEstado, int activo) {
+
+    public Evento(int id, String nombre, String descripcion, String longitud, String latitud, String foto, int idEstado, int activo, String idusu) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -19,8 +21,16 @@ public class Evento {
         this.foto = foto;
         this.idEstado = idEstado;
         this.activo = activo;
+        this.idusu = idusu;
     }
 
+    public String getIdusu() {
+        return idusu;
+    }
+
+    public void setIdusu(String idusu) {
+        this.idusu = idusu;
+    }
     public int getId() {
         return id;
     }

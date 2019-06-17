@@ -15,6 +15,8 @@ import com.example.eventos_denuncia.AdapterDenunciaUsuario;
 import com.example.eventos_denuncia.Evento;
 import com.example.eventos_denuncia.EventoResponse;
 import com.example.eventos_denuncia.R;
+import com.example.eventos_denuncia.SharedPrefManager;
+import com.example.eventos_denuncia.Usuario;
 import com.example.eventos_denuncia.api.RetrofitClient;
 
 import java.util.List;
@@ -42,7 +44,10 @@ public class MisReclamos extends Fragment {
         recyclerView = view.findViewById(R.id.recylcerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Call<EventoResponse> call= RetrofitClient.getInstance().getApi().obtenerEventosdelusuario();
+        Usuario usuario = SharedPrefManager.getInstance(getActivity()).getUsuario();
+        String ci= usuario.getCedula();
+
+        Call<EventoResponse> call= RetrofitClient.getInstance().getApi().obtenerEventosdelusuario(ci);
         call.enqueue(new Callback<EventoResponse>() {
             @Override
             public void onResponse(Call<EventoResponse> call, Response<EventoResponse> response) {

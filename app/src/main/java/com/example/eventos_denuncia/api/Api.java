@@ -3,13 +3,17 @@ package com.example.eventos_denuncia.api;
 import com.example.eventos_denuncia.EventoResponse;
 import com.example.eventos_denuncia.LoginResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface Api {
@@ -71,21 +75,18 @@ public interface Api {
     Call<EventoResponse> obtenerEventos();
 
 
-    @FormUrlEncoded
-    @POST("crearevento")
-    Call<ResponseBody> crearEvento(
+    @GET("obtenereventosdelusuario/{idusu}")
+    Call<EventoResponse> obtenerEventosdelusuario(@Path("idusu") String idusu);
 
-            @Field("nombre") String nombre,
-            @Field("descripcion") String descripcion,
-            @Field("longitud") String longitud,
-            @Field("latitud") String latitud,
-            @Field("foto") String foto,
-            @Field("idEstado") int idEstado,
-            @Field("activo") int activo
-
-    );
-
-    @GET("obtenereventosdelusuario")
-    Call<EventoResponse> obtenerEventosdelusuario();
+    @Multipart
+    @POST("nuevoevento")
+    Call<ResponseBody> crearDenuncia(@Part MultipartBody.Part file,
+                                  @Part("nombre") RequestBody titulo,
+                                  @Part("descripcion") RequestBody descripcion,
+                                  @Part("latitud") RequestBody latitud,
+                                  @Part("longitud") RequestBody longitud,
+                                  @Part("idEstado") RequestBody idStado,
+                                  @Part("activo") RequestBody activo,
+                                  @Part("idusu") RequestBody idusu);
 
 }

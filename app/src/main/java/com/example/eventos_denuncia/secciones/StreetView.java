@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.example.eventos_denuncia.R;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.StreetViewPanoramaFragment;
-import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 public class StreetView extends Fragment implements OnStreetViewPanoramaReadyCallback {
