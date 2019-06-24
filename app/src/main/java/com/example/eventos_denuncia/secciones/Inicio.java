@@ -3,6 +3,7 @@ package com.example.eventos_denuncia.secciones;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,6 +47,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
     Marker marker;
     private FloatingActionButton button;
     String baseURL = "http://192.168.43.118/PhpEventosDenuncia/";
+    boolean posocercano= false;
 
 
     @Nullable
@@ -73,7 +75,9 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(marker==null)
-                Toast.makeText(getActivity(),"Primero debe marcar un punto en el mapa manteniendolo pulsado",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Primero debe marcar un punto en el mapa manteniendolo pulsado",Toast.LENGTH_LONG).show();
+                else if (posocercano==true)
+                    Toast.makeText(getActivity(),"Poso a menos de 50 metros de alguno existente, corrija el marcador y reintente",Toast.LENGTH_LONG).show();
                 else
                 nuevoEvento(v);
             }
@@ -216,6 +220,8 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onMapLongClick(LatLng point) {
+                posocercano=false;
+
                 if (marker != null) {
                     marker.remove();
                 }
@@ -228,6 +234,23 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                                         point.longitude)).title("Nuevo Marcador")
                         .icon(bitmapDescriptor3));
 
+                LatLng markerLatLng = marker.getPosition();
+                Location markerLocation = new Location("");
+                markerLocation.setLatitude(markerLatLng.latitude);
+                markerLocation.setLongitude(markerLatLng.longitude);
+
+                for (int i=0; i<eventos.size(); i++) {
+                    Location markerLocation1 = new Location("");
+                    markerLocation1.setLatitude(Double.parseDouble(eventos.get(i).getLatitud()));
+                    markerLocation1.setLongitude(Double.parseDouble(eventos.get(i).getLongitud()));
+
+                    if(markerLocation1.distanceTo(markerLocation)<50) {
+                        String distancia = String.valueOf(markerLocation1.distanceTo(markerLocation));
+                        Toast.makeText(getActivity(), "Existe un poso a menos de 50 metros, \n exactamente a " + distancia+" metros", Toast.LENGTH_LONG).show();
+                        posocercano=true;
+                        return;
+                    }
+                }
             }
         });
     }
