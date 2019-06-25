@@ -265,7 +265,8 @@ public void setLatitudLong (double lat, double lonng){
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {//si es de la galeria
             Uri imageUri = data.getData();
-            mPhotoImageView.setImageURI(imageUri);
+            Picasso.get().load(imageUri).fit().centerCrop().into(mPhotoImageView);
+           // mPhotoImageView.setImageURI(imageUri);
             this.uriImagen = imageUri;
 
 
@@ -273,7 +274,8 @@ public void setLatitudLong (double lat, double lonng){
         if (resultCode == RESULT_OK && requestCode == CAPTURA_FOTO) {
 
             Uri imageUri = Uri.fromFile(new File(imageFilePath));
-            mPhotoImageView.setImageURI(imageUri);
+            Picasso.get().load(imageUri).fit().centerCrop().into(mPhotoImageView);
+            //mPhotoImageView.setImageURI(imageUri);
             this.uriImagen = Uri.fromFile(new File(imageFilePath));
 
         }
