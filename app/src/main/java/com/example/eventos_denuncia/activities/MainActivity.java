@@ -2,10 +2,13 @@ package com.example.eventos_denuncia.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.EditText;
@@ -15,6 +18,7 @@ import com.example.eventos_denuncia.R;
 import com.example.eventos_denuncia.SharedPrefManager;
 import com.example.eventos_denuncia.api.RetrofitClient;
 import com.example.eventos_denuncia.secciones.Fechas;
+import com.example.eventos_denuncia.secciones.Inicio;
 import com.example.eventos_denuncia.utils.AccionElegirFecha;
 
 import org.json.JSONException;
@@ -167,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             try {
                 if (response.code() == 201){
-                    s = response.body().string();
+                    showCustomDialog();
                 }
                 else{
                     s = response.errorBody().string();
@@ -195,6 +199,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     });
 
 
+    }
+
+    private void showCustomDialog() {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.registrarse_exito, viewGroup, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
+    public void arrancarInicio(View view){
+
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

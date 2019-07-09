@@ -46,7 +46,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
     private List<Evento> eventos;
     Marker marker;
     private FloatingActionButton button;
-    String baseURL = "http://192.168.43.118/PhpEventosDenuncia/";
+    String baseURL = "http://192.168.1.2/PhpEventosDenuncia/";
     boolean posocercano= false;
 
 
@@ -231,7 +231,7 @@ public class Inicio extends Fragment implements OnMapReadyCallback {
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(
                                 new LatLng(point.latitude,
-                                        point.longitude)).title("Nuevo Marcador")
+                                        point.longitude)).title("Nuevo Marcador").snippet("Pulsa + para continuar")
                         .icon(bitmapDescriptor3));
 
                 LatLng markerLatLng = marker.getPosition();

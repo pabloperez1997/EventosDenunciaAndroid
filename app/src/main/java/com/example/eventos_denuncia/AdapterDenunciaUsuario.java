@@ -20,7 +20,7 @@ public class AdapterDenunciaUsuario extends
 
     private Context mCtx;
     private List<Evento> eventosUsuario;
-    private String URLbase="http://192.168.43.118/PhpEventosDenuncia/";
+    private String URLbase="http://192.168.1.2/PhpEventosDenuncia/";
 
     public AdapterDenunciaUsuario(Context mCtx, List<Evento> eventosUsuario) {
         this.mCtx = mCtx;
